@@ -1,0 +1,23 @@
+{
+  "name": "corona-bot",
+  "version": "1.0.0",
+  "description": "Status about corona virus aka nCoV",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/phamleduy04/corona-bot.git"
+  },
+  "author": "Duy Pham aka phamleduy04#9999",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/phamleduy04/corona-bot/issues"
+  },
+  "homepage": "https://github.com/phamleduy04/corona-bot#readme",
+  "dependencies": {
+    "discord.js": "^11.5.1",
+    "request": "^2.88.0"
+  }
+}
