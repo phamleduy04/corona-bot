@@ -20,7 +20,6 @@ client.on(`message`, async message => {
             var solieu = solieu.replace(/[^a-zA-Z0-9 ]/g, "");
             var solieu = solieu.replace(/c|s|o|t|r|l|a|h|m|b|p|e|i/g, "");
             var solieu = solieu.trim().split(" ");
-            console.log(solieu)
             var xacnhan = solieu.slice(2,3);
             var die = solieu.slice(3,4);
             var recoveries= solieu.slice(4,5);
