@@ -14,16 +14,17 @@ client.on(`message`, async message => {
     if (message.content.toLowerCase() == `${prefix}corona`){
         request(corona_url, function(error, response, request){
             if (error) return message.channel.send(`Bot lỗi, status code: ${response && response.statusCode}`)
-            var begin = request.indexOf('<th align="right">')
-            var end = request.indexOf('<th></th></tr>');
+            var begin = request.indexOf('<tr class="sortbottom">')
+            var end = request.indexOf('<tr style="text-align:center;" class="sortbottom">');
             var solieu = request.slice(begin,end)
             var solieu = solieu.replace(/[^a-zA-Z0-9 ]/g, "");
-            var solieu = solieu.replace(/t|h|a|l|i|g|r|n/g, "");
-            var solieu = solieu.split(" ");
-            var xacnhan = solieu.slice(1,2);
-            var die = solieu.slice(2,3);
-            var recoveries= solieu.slice(3,4);
-            const embed = new Discord.RichEmbed()
+            var solieu = solieu.replace(/c|s|o|t|r|l|a|h|m|b|p|e|i/g, "");
+            var solieu = solieu.trim().split(" ");
+            console.log(solieu)
+            var xacnhan = solieu.slice(2,3);
+            var die = solieu.slice(3,4);
+            var recoveries= solieu.slice(4,5);
+            const embed = new RichEmbed()
                 .setAuthor(`Lưu ý: Thông tin cập nhật về bot không phải thời gian thực!`)
                 .setTitle(`Thông tin về virus Corona aka nCoV`)
                 .addField(`Số lượng ca nhiễm: `,`${xacnhan} ca`)
