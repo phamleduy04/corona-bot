@@ -18,6 +18,6 @@
   "homepage": "https://github.com/phamleduy04/corona-bot#readme",
   "dependencies": {
     "discord.js": "^11.5.1",
-    "request": "^2.88.0"
+    "graphql-request": "^1.8.2"
   }
 }
