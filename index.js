@@ -10,6 +10,21 @@ const query = `query countries {
         Recovered 
     }
 }`
+const graphqlclient = new graphql.GraphQLClient(corona_url, {
+    headers: {
+        Authority: "corona-api.kompa.ai",
+        Scheme: "https",
+        Path: "/graphql",
+        Accept: "*/*",
+        UserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36",
+        Origin: "https://corona.kompa.ai",
+        secfetchsize: "same-site",
+        secfetchmode: "cors",
+        Referer: "https://corona.kompa.ai",
+        AcceptEncoding: "gzip, deflate, br",
+        AcceptLanguage: "vn-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5"
+    },
+})
 const client = new Client()
 
 client.login(discord_key);
@@ -20,7 +35,7 @@ client.on('ready', () =>{
 
 client.on(`message`, async message => {
     if (message.content.toLowerCase() == `${prefix}corona`){
-        graphql.request(corona_url, query)
+        graphqlclient.request(query)
             .then(data => {
                 var confirmed = 0;
                 var die = 0;
