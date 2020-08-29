@@ -15,7 +15,6 @@ const client = new Client({
 })
 
 
-
 client.on('ready', () =>{
     console.log(`Bot ${client.user.username} đã sẵn sàng để hoạt động!`)
 })
@@ -73,4 +72,4 @@ client.on(`message`, async message => {
 
 if (process.env.TYPE_RUN !== 'ci') {
     client.login(process.env.discordToken);
-}
+} else process.exit();
