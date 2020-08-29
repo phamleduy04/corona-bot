@@ -1,7 +1,7 @@
 # corona-bot
 🤖 Discord bot dùng để cập nhật tình hình virus Corona.
 
-![David](https://img.shields.io/david/phamleduy04/corona-bot?style=for-the-badge)
+Hướng dẫn ở [đây](https://anlink.top/v/84z2z2y203/) (cũ)
 
 
 ## Hướng dẫn cài đặt
