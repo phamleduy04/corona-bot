@@ -1,9 +1,6 @@
 # corona-bot
 🤖 Discord bot dùng để cập nhật tình hình virus Corona.
 
-Hướng dẫn ở [đây](https://anlink.top/v/84z2z2y203/) (cũ)
-
-
 ## Hướng dẫn cài đặt
 - Clone repo này về (git clone https://github.com/phamleduy04/corona-bot.git)
 - Cài đặt [NodeJS LTS](https://nodejs.org/en/)

@@ -1,6 +1,9 @@
 const { Client, MessageEmbed } = require("discord.js");
-const { discordToken, prefix } = require("./config.json");
 const { laysodep } = require('./util');
+const { config } = require('dotenv');
+config({
+    path: __dirname + '/.env',
+})
 const api = require('novelcovid');
 const capitalize = require('capitalize')
 
@@ -18,7 +21,7 @@ client.on('ready', () =>{
 })
 
 client.on(`message`, async message => {
-    const prefixlist = [`<@${client.user.id}>`, `<@!${client.user.id}>`, prefix]
+    const prefixlist = [`<@${client.user.id}>`, `<@!${client.user.id}>`, process.env.prefix || '*'];
     let prefixCheck = null;
     for (const thisprefix of prefixlist) {
         if (message.content.toLowerCase().startsWith(thisprefix)) prefixCheck = thisprefix
@@ -69,5 +72,5 @@ client.on(`message`, async message => {
 })
 
 if (process.env.TYPE_RUN !== 'ci') {
-    client.login(discordToken);
+    client.login(process.env.discordToken);
 }
