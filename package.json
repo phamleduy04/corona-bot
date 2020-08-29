@@ -4,20 +4,26 @@
   "description": "Status about corona virus aka nCoV",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "nodemon index.js"
   },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/phamleduy04/corona-bot.git"
   },
   "author": "Duy Pham aka phamleduy04#9999",
-  "license": "ISC",
+  "license": "MIT",
   "bugs": {
     "url": "https://github.com/phamleduy04/corona-bot/issues"
   },
   "homepage": "https://github.com/phamleduy04/corona-bot#readme",
   "dependencies": {
-    "discord.js": "^11.5.1",
-    "graphql-request": "^1.8.2"
+    "capitalize": "^2.0.3",
+    "discord.js": "^12.3.1",
+    "novelcovid": "^3.0.0"
+  },
+  "devDependencies": {
+    "eslint": "^7.7.0",
+    "nodemon": "^2.0.4"
   }
 }

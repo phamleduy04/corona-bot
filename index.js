@@ -1,60 +1,72 @@
-const {Client, RichEmbed} = require("discord.js");
-const graphql = require('graphql-request');
-const {discord_key, prefix} = require("./config.json")
-const corona_url = "https://corona-api.kompa.ai/graphql";
-const query = `query countries {
-    countries {
-        Country_Region
-        Confirmed
-        Deaths
-        Recovered 
-    }
-}`
-const graphqlclient = new graphql.GraphQLClient(corona_url, {
-    headers: {
-        Authority: "corona-api.kompa.ai",
-        Scheme: "https",
-        Path: "/graphql",
-        Accept: "*/*",
-        UserAgent: "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.122 Safari/537.36",
-        Origin: "https://corona.kompa.ai",
-        secfetchsize: "same-site",
-        secfetchmode: "cors",
-        Referer: "https://corona.kompa.ai",
-        AcceptEncoding: "gzip, deflate, br",
-        AcceptLanguage: "vn-VN,vi;q=0.9,fr-FR;q=0.8,fr;q=0.7,en-US;q=0.6,en;q=0.5"
-    },
-})
-const client = new Client()
+const { Client, MessageEmbed } = require("discord.js");
+const { discordToken, prefix } = require("./config.json");
+const { laysodep } = require('./util');
+const api = require('novelcovid');
+const capitalize = require('capitalize')
 
-client.login(discord_key);
+api.settings({
+    baseUrl: 'https://disease.sh'
+});
+const client = new Client({
+    disableMentions: 'everyone',
+})
+
+
 
 client.on('ready', () =>{
     console.log(`Bot ${client.user.username} đã sẵn sàng để hoạt động!`)
 })
 
 client.on(`message`, async message => {
-    if (message.content.toLowerCase() == `${prefix}corona`){
-        graphqlclient.request(query)
-            .then(data => {
-                var confirmed = 0;
-                var die = 0;
-                var recovered = 0;
-                data.countries.forEach(count => {
-                    confirmed = confirmed + parseInt(count.Confirmed);
-                    die = die + parseInt(count.Deaths)
-                    recovered = recovered + parseInt(count.Recovered)
-                });
-                var confirmed = confirmed.toString().replace(/(-?\d+)(\d{3})/g, "$1,$2") //Thêm dấu phẩy sau 3 chữ số (75,748)
-                var die = die.toString().replace(/(-?\d+)(\d{3})/g, "$1,$2")
-                var recovered = recovered.toString().replace(/(-?\d+)(\d{3})/g, "$1,$2")
-                const embed = new RichEmbed()
-                    .setTitle(`Thông tin về virus Corona (nCoV, COVID-19)`)
-                    .addField(`Số lượng ca nhiễm: `,`${confirmed} ca`)
-                    .addField(`Số người chết: `,`${die} người`)
-                    .addField(`Số người hội phục: `,`${recovered} người`)
-                    .setFooter(`Nguồn: corona.kompa.ai | Made by phamleduy04#9999\nThông tin cập nhật theo thời gian thực!`)
-                message.channel.send(embed)
-        })
+    const prefixlist = [`<@${client.user.id}>`, `<@!${client.user.id}>`, prefix]
+    let prefixCheck = null;
+    for (const thisprefix of prefixlist) {
+        if (message.content.toLowerCase().startsWith(thisprefix)) prefixCheck = thisprefix
+    }
+    if (prefixCheck === null || !message.content.startsWith(prefixCheck)) return;
+    const args = message.content.slice(prefixCheck.length).trim().split(/ +/g);
+    const cmd = args.shift().toLowerCase();
+    if (cmd.length === 0) return;
+    switch(cmd) {
+        case 'all': {
+            let data = await api.all();
+            let d = new Date(data.updated);
+            let fulldate = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+            let embed = new MessageEmbed()
+                .setTitle(`Số ca nhiễm COVID-19 ở Thế Giới`)
+                .addField('Số ca nhiễm: ', `${laysodep(data.cases)}(+${laysodep(data.todayCases)})`, true)
+                .addField('Số ca tử vong: ', `${laysodep(data.deaths)}(+${laysodep(data.todayDeaths)})`, true)
+                .addField('Số ca nghiêm trọng: ',laysodep(data.critical), true)
+                .addField('Số ca hồi phục: ', laysodep(data.recovered), true)
+                .addField('Số quốc gia bị nhiễm: ', data.affectedCountries, true)
+                .addField('Ngày cập nhật: ',fulldate, true)
+                .setFooter('Nguồn: worldometers.info')
+            message.channel.send(embed);
+            break;
+        }
+        case 'vietnam':
+        case 'vn': {
+            if (!args[0]) return message.channel.send('Bạn phải nhập tên tỉnh (có dấu) để tìm kiếm!');
+            let data = await api.gov('vietnam');
+            let query = args.join(' ').toLowerCase();
+            if (query == 'hcm' || query == 'tphcm' || query == 'tphcm') query = 'Hồ Chí Minh';
+            data = data.filter(el => el.city == capitalize.words(query));
+            if (data.length == 0) return message.channel.send('Không tìm thấy tên thành phố bạn nhập!');
+            data = data[0];
+            let d = new Date(data.updated);
+            let fulldate = `${d.getDate()}/${d.getMonth()+1}/${d.getFullYear()}`;
+            let embed = new MessageEmbed()
+                .setTitle(`Số ca nhiễm ở ${data.city}`)
+                .addField('Ngày cập nhật', fulldate, true)
+                .addField('Số ca nhiễm: ', laysodep(data.cases), true)
+                .addField('Số ca đang điều trị:', laysodep(data.beingTreated), true)
+                .addField('Số ca hồi phục: ', laysodep(data.recovered), true)
+                .addField('Số ca tử vong:', laysodep(data.deaths), true)
+                .setFooter('Nguồn: Bộ y tế VN')
+            message.channel.send(embed)
+        }
     }
 })
+
+
+client.login(discordToken);
