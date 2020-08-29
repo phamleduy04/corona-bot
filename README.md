@@ -1,5 +1,5 @@
 # corona-bot
 
-Hướng dẫn ở [đây](https://anlink.top/v/84z2z2y203/)
+Hướng dẫn ở [đây](https://anlink.top/v/84z2z2y203/) (cũ)
 
 Password là j2team 
