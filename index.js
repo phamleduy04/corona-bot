@@ -68,5 +68,6 @@ client.on(`message`, async message => {
     }
 })
 
-
-client.login(discordToken);
+if (process.env.TYPE_RUN !== 'ci') {
+    client.login(discordToken);
+}

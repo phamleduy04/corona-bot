@@ -23,6 +23,8 @@ Hướng dẫn ở [đây](https://anlink.top/v/84z2z2y203/) (cũ)
 - Mở terminal hoặc command line tại folder chứa code
 - npm i
 - node index.js
+
+
 ## Contributors ✨
 
 Thanks goes to these wonderful people ([emoji key](https://allcontributors.org/docs/en/emoji-key)):

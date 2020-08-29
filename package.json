@@ -4,7 +4,7 @@
   "description": "Status about corona virus aka nCoV",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env TYPE_RUN=ci node index.js",
     "dev": "nodemon index.js"
   },
   "repository": {
@@ -19,10 +19,12 @@
   "homepage": "https://github.com/phamleduy04/corona-bot#readme",
   "dependencies": {
     "capitalize": "^2.0.3",
+    "cross-env": "^7.0.2",
     "discord.js": "^12.3.1",
     "novelcovid": "^3.0.0"
   },
   "devDependencies": {
+    "all-contributors-cli": "^6.17.2",
     "eslint": "^7.7.0",
     "nodemon": "^2.0.4"
   }
